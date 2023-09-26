@@ -47,6 +47,7 @@ function admin_menu()  {
     echo "[L]ogged In"
     echo "[N}etwork Sockets"
     echo "[V]PN Menu"
+    echo "[B]lock List Menu"
     echo "[4] Exit"
     read -p "Please enter a choice: " choice
 
@@ -64,6 +65,8 @@ function admin_menu()  {
         N|n) netstat -an --inet |less
         ;;
         V|v) vpn_menu
+        ;;
+        B|b) block_list
         ;;
         4) exit 0
         ;;
@@ -129,6 +132,53 @@ function vpn_menu()  {
     esac
 
 vpn_menu
+}
+
+# Added function to block IP networks on multiple firewall types utilizing script file
+function block_list()  {
+
+    clear
+
+    echo "[W]indows Blocklist Generator"
+    echo "[C]isco Blocklist Generator"
+    echo "[D]omain Blocklist Generator"
+    echo "[M]ac Blocklist Generator"
+    echo "[4]Back"
+    echo "[5]Exit"
+    read -p "Please choose a choice: " choice
+
+    case "$choice" in
+
+        W|w) 
+            bash Firewall-selection.bash -f windows
+            sudo iptables -L
+
+            echo "IP Network added"
+            sleep 2
+        ;;
+        C|c) bash Firewall-selection.bash -f cisco
+        ;;
+        D|d) bash Firewall-selection.bash -f iptables
+        ;;
+        M|m) bash Firewall-selection.bash -f mac
+        ;;
+        4) admin_menu 
+        ;;
+        5) exit 0
+        ;;
+        *)
+            echo ""
+            echo "Invalid option"
+            echo ""
+            sleep 2
+
+           # Calls VPN menu
+            block_list
+
+        ;;
+    esac
+
+block_list
 }
 # Calls the main function
 menu
