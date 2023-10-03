@@ -20,7 +20,7 @@ function checks() {
 
 # Check IP Forwarding policy
 ipfwd=$(grep "net\.ipv4\.ip_forward" /etc/sysctl.conf | awk ' { print $1 } ')
-checks "Ip Forwarding" "net.ipv4.ip_forward=0" "${ipfwd}"
+checks "Ip Forwarding" "net.ipv4.ip_forward=0" "${ipfwd}""\nRemediation\nEdit /etc/sysctl.conf and set:\n net.ipv4.ip_forward=1\nto\n net.ipv4.ip_foward=0.\nThen run: \n sysctl -w"
 
 #Check ICMP Redirects policy
 icmp=$(grep "net\.ipv4\.conf\.all\.accept_redirects" /etc/sysctl.conf | awk '{print $3}''{print $5}''{print $9}')
@@ -30,7 +30,7 @@ checks "Recive ICMP Redirects" "0" "${icmp}"
 crontab=$(stat /etc/crontab | grep '(' | awk '{print $2}')
 crontab2=$(stat /etc/crontab | grep '(' | awk '{print $5}')
 crontab3=$(stat /etc/crontab | grep '(' | awk '{print $9}')
-checks "Crontab File Permissions" "(0600/-rw------)" "${crontab}"
+checks "Crontab File Permissions" "(0600/-rw------)" "${crontab}""\nRemediation\nRun: \n chown root:root /etc/crontab\nThen: \n chmod og-rwx /etc/crontab"
 checks "Crontab File Uid" "0/" "${crontab2}"
 checks "Crontab File Gid" "0/" "${crontab3}"
 
@@ -38,7 +38,7 @@ checks "Crontab File Gid" "0/" "${crontab3}"
 cronhourly=$(stat /etc/cron.hourly | grep '(' | awk '{print $2}')
 cronhourly2=$(stat /etc/cron.hourly | grep '(' | awk '{print $5}')
 cronhourly3=$(stat /etc/cron.hourly | grep '(' | awk '{print $9}')
-checks "Cron.hourly File Permissions" "(0700/drwx-----)" "${cronhourly}"
+checks "Cron.hourly File Permissions" "(0700/drwx-----)" "${cronhourly}""\nRemediation\nRun: \n chown root:root /etc/cron.hourly\nThen: \n chmod og-rwx /etc/cron.hourly"
 checks "Cron.hourly File Uid" "0/" "${cronhourly2}"
 checks "Cron.hourly File Gid" "0/" "${cronhourly3}"
 
@@ -46,7 +46,7 @@ checks "Cron.hourly File Gid" "0/" "${cronhourly3}"
 crondaily=$(stat /etc/cron.daily | grep '(' | awk '{print $2}')
 crondaily2=$(stat /etc/cron.daily | grep '(' | awk '{print $5}')
 crondaily3=$(stat /etc/cron.daily | grep '(' | awk '{print $9}')
-checks "Cron.daily File Permissions" "(0700/drwx-----)" "${crondaily}"
+checks "Cron.daily File Permissions" "(0700/drwx-----)" "${crondaily}""\nRemediation\nRun: \n chown root:root /etc/cron.daily\nThen: \n chmod og-rwx /etc/cron.daily"
 checks "Cron.daily File Uid" "0/" "${crondaily2}"
 checks "Cron.daily File Gid" "0/" "${crondaily3}"
 
@@ -54,7 +54,7 @@ checks "Cron.daily File Gid" "0/" "${crondaily3}"
 cronweekly=$(stat /etc/cron.weekly | grep '(' | awk '{print $2}')
 cronweekly2=$(stat /etc/cron.weekly | grep '(' | awk '{print $5}')
 cronweekly3=$(stat /etc/cron.weekly | grep '(' | awk '{print $9}')
-checks "Cron.weekly File Permissions" "(0700/drwx-----)" "${cronweekly}"
+checks "Cron.weekly File Permissions" "(0700/drwx-----)" "${cronweekly}""\nRemediation\nRun: \n chown root:root /etc/cron.weekly\nThen: \n chmod og-rwx /etc/cron.weekly"
 checks "Cron.weekly File Uid" "0/" "${cronweekly2}"
 checks "Cron.weekly File Gid" "0/" "${cronweekly3}"
 
@@ -62,7 +62,7 @@ checks "Cron.weekly File Gid" "0/" "${cronweekly3}"
 cronmonthly=$(stat /etc/cron.monthly | grep '(' | awk '{print $2}')
 cronmonthly2=$(stat /etc/cron.monthly | grep '(' | awk '{print $5}')
 cronmonthly3=$(stat /etc/cron.monthly | grep '(' | awk '{print $9}')
-checks "Cron.monthly File Permissions" "(0700/drwx-----)" "${cronmonthly}"
+checks "Cron.monthly File Permissions" "(0700/drwx-----)" "${cronmonthly}""\nRemediation\nRun: \n chown root:root /etc/cron.monthly\nThen: \n chmod og-rwx /etc/cron.monthly"
 checks "Cron.monthly File Uid" "0/" "${cronmonthly2}"
 checks "Cron.monthly File Gid" "0/" "${cronmonthly3}"
 
